@@ -1279,7 +1279,7 @@ def report(per_file, per_task, shots, out_dir: Path, nruns: int):
     for s in shots:
         summary[s] = {}
         tasks = sorted(per_task[s], key=lambda t: TASK_ORDER.index(t) if t in TASK_ORDER else 999)
-        print(f"\n{'=' * 22} {s.replace('shot', '-shot').upper()}  ({nruns} run{'s' i nruns > 1 else ''}) {'=' * 22}")
+        print(f"\n{'=' * 22} {s.replace('shot', '-shot').upper()}  ({nruns} run{'s' if nruns > 1 else ''}) {'=' * 22}")
         print(f"{'task':14s}{'n':>6s}  metrics")
         for t in tasks:
             d = per_task[s][t]
