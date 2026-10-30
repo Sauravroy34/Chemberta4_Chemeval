@@ -38,8 +38,8 @@ class LiteLLMModel(ModelInterface):
             "messages": messages,
             "temperature": self.kwargs.get("temperature", 0.0),
         }
-        if self.max_new_tokens:
-            params["max_tokens"] = self.max_new_tokens
+        # if self.max_new_tokens:
+        #     params["max_tokens"] = self.max_new_tokens
         return params
 
     def generate(self, sys_prompt, user_prompt, n=1) -> list[str]:
