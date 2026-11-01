@@ -2,7 +2,7 @@ nltk
 numpy
 rdkit
 selfies
-sklearn
+scikit-learn
 py2opsin
 tqdm
 pandas

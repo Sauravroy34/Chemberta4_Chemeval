@@ -40,6 +40,17 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Optional
 
+
+from dotenv import load_dotenv
+
+load_dotenv(override=True)
+LANGFUSE = None
+if os.environ.get("LANGFUSE_PUBLIC_KEY") and os.environ.get("LANGFUSE_SECRET_KEY"):
+    from langfuse import get_client
+    LANGFUSE = get_client()
+else:
+    print("WARNING: Langfuse keys not set - nothing will be logged to Langfuse")
+
 HERE = Path(__file__).resolve().parent
 # Re-use repo_constants.json from text_eval (same judge templates)
 TEXT_EVAL = HERE.parent / "text_eval"
@@ -756,6 +767,9 @@ class Judge:
     def _one(self, prompt):
         import litellm
         litellm.drop_params = True
+
+        litellm.success_callback = ["langfuse"] if LANGFUSE else []
+        litellm.failure_callback = ["langfuse"] if LANGFUSE else []
         for a in range(self.retries):
             try:
                 r = litellm.completion(model=self.model,
